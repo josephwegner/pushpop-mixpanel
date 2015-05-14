@@ -54,6 +54,16 @@ describe Pushpop::Mixpanel do
       step.run
     end
 
+    it 'updates a user' do
+      step = Pushpop::Mixpanel.new do
+        user '12345'
+        set({coolness: 1})
+      end
+
+      expect(Pushpop::Mixpanel.tracker.people).to receive(:set).with('12345', {coolness: 1})
+      step.run
+    end
+
     describe 'alias' do
       it 'should create aliases' do
         step = Pushpop::Mixpanel.new do

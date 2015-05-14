@@ -45,6 +45,12 @@ module Pushpop
     end
 
     ## User Functions
+    
+    def set(properties)
+      raise 'You have to set the user before updating properties' unless self._user
+      Pushpop::Mixpanel.tracker.people.set(self._user, properties)
+      nil
+    end
 
     def create_alias(new_id, previous_id)
       Pushpop::Mixpanel.tracker.alias(new_id, previous_id)
