@@ -36,7 +36,11 @@ module Pushpop
     def track(name, properties = nil)
       raise 'You have to set the user before tracking mixpanel events' unless self._user
 
-      Pushpop::Mixpanel.tracker.track(self._user, name, properties)
+      if properties.nil?
+        Pushpop::Mixpanel.tracker.track(self._user, name)
+      else
+        Pushpop::Mixpanel.tracker.track(self._user, name, properties)
+      end
       nil
     end
 
@@ -63,7 +67,11 @@ module Pushpop
     def charge(amount, properties = nil)
       raise 'You have to set the user before charging them' unless self._user
 
-      Pushpop::Mixpanel.tracker.people.track_charge(self._user, amount, properties)
+      if properties.nil?
+        Pushpop::Mixpanel.tracker.people.track_charge(self._user, amount)
+      else
+        Pushpop::Mixpanel.tracker.people.track_charge(self._user, amount, properties)
+      end
     end
 
     def delete(ignore_alias = false)

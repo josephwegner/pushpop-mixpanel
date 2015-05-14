@@ -10,7 +10,7 @@ describe Pushpop::Mixpanel do
         track 'An Event'
       end
 
-      expect(Pushpop::Mixpanel.tracker).to receive(:track).with('12345', 'An Event', nil)
+      expect(Pushpop::Mixpanel.tracker).to receive(:track).with('12345', 'An Event')
       step.run
     end
 
@@ -101,7 +101,7 @@ describe Pushpop::Mixpanel do
           charge 100
         end
 
-        expect(Pushpop::Mixpanel.tracker.people).to receive(:track_charge).with('12345', 100, nil)
+        expect(Pushpop::Mixpanel.tracker.people).to receive(:track_charge).with('12345', 100)
         step.run
       end
 
