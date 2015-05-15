@@ -21,14 +21,9 @@ module Pushpop
       self.instance_exec(last_response, step_responses, &block)
     end
 
-    def user(id, properties = nil)
+    def user(id, properties = {})
       self._user = id
-
-      unless properties.nil?
-        Pushpop::Mixpanel.tracker.people.set(id, properties)
-      end
-
-      nil
+      Pushpop::Mixpanel.tracker.people.set(id, properties)
     end
 
     ## Tracking Functions
@@ -41,7 +36,6 @@ module Pushpop
       else
         Pushpop::Mixpanel.tracker.track(self._user, name, properties)
       end
-      nil
     end
 
     ## User Functions
@@ -49,25 +43,21 @@ module Pushpop
     def set(properties)
       raise 'You have to set the user before updating properties' unless self._user
       Pushpop::Mixpanel.tracker.people.set(self._user, properties)
-      nil
     end
 
     def create_alias(new_id, previous_id)
       Pushpop::Mixpanel.tracker.alias(new_id, previous_id)
       self._user = new_id
-      nil
     end
 
     def increment(properties)
       raise 'You have to set the user before incrementing' unless self._user
       Pushpop::Mixpanel.tracker.people.increment(self._user, properties)
-      nil
     end
 
     def append(properties)
       raise 'You have to set the user before appending proeprties to it' unless self._user
       Pushpop::Mixpanel.tracker.people.append(self._user, properties)
-      nil
     end
 
     def charge(amount, properties = nil)
