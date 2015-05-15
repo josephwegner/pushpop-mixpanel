@@ -6,6 +6,7 @@ Mixpanel plugin for [Pushpop](https://github.com/pushpop-project/pushpop).
 - [Usage](#usage)
   - [Global Functions](#global-functions)
   - [Tracking Functions](#tracking-functions)
+  - [User Functions](#user-functions)
   - [Analysis Functions](#analysis-functions)
 - [Contributing](#contributing)
 
