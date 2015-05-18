@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 ENV['MIXPANEL_PROJECT_TOKEN'] = '0987654321'
+ENV['MIXPANEL_API_KEY'] = '0987654321'
+ENV['MIXPANEL_API_SECRET'] = '0987654321'
 
 describe Pushpop::Mixpanel do
   describe 'track' do
@@ -35,6 +37,28 @@ describe Pushpop::Mixpanel do
     end
   end
 
+  describe 'query' do
+    it 'performs queries to an endpoint' do
+      step = Pushpop::Mixpanel.new do
+        query 'a/thing'
+      end 
+
+      expect(Pushpop::Mixpanel.querent).to receive(:request).with('a/thing', {})
+      step.run
+      expect(step._endpoint).to eq('a/thing')
+    end
+
+    it 'performs queries with properties' do
+      step = Pushpop::Mixpanel.new do
+        query 'a/thing', age: 23
+      end
+
+      expect(Pushpop::Mixpanel.querent).to receive(:request).with('a/thing', {age: 23})
+      step.run
+      expect(step._endpoint).to eq('a/thing')
+    end
+  end
+
   describe 'user' do
     it 'sets the user to do work with' do
       step = Pushpop::Mixpanel.new do
@@ -43,6 +67,15 @@ describe Pushpop::Mixpanel do
 
       step.run
       expect(step._user).to eq('12345')
+    end
+
+    it 'creates the user with blank properties if no other set is called' do
+      step = Pushpop::Mixpanel.new do
+        user '12345'
+      end
+
+      expect(Pushpop::Mixpanel.tracker.people).to receive(:set).with('12345', {})
+      step.run
     end
 
     it 'updates the user if properties are passed' do
