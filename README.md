@@ -92,7 +92,7 @@ _This will also update the current user context to be `new_id`._
 This will increment/decrement numeric properties based on the values provided in the hash. For example:
 
 ``` ruby
-track({
+increment({
 	support_tickets: 1, # Increase ticket count by 1
 	available_balance: -10 # Decrease balance by 10
 })
@@ -124,7 +124,17 @@ To delete a user and ignore alias, pass `true` in to this function.
 
 ### Analysis Functions
 
-Todo
+For now we are just using [mixpanel_client](https://github.com/keolo/mixpanel_client) internally, so the syntax for doing analysis queries pretty directly matches that. Check out that README for details, but a basic query might look like:
+
+``` ruby
+mixpanel do
+  query 'events/properties',
+    event: 'Support Ticket',
+    type: 'unique',
+    unit: 'day', 
+    interval: 5
+end
+```
 
 ## Contributing
 
